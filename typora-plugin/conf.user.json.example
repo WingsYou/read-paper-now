@@ -1,0 +1,47 @@
+{
+  "customCommands": {
+    "fetch-paper-info": {
+      "name": "获取论文信息",
+      "description": "从 arXiv/Semantic Scholar 等获取论文信息",
+      "command": "/path/to/typora-plugin/fetch_and_replace.sh",
+      "args": ["${selection}"],
+      "replaceSelection": true,
+      "when": "hasSelection"
+    }
+  },
+
+  "_comment1": "Windows 用户请使用以下配置（取消注释）:",
+  "_windows_example": {
+    "customCommands": {
+      "fetch-paper-info": {
+        "name": "获取论文信息",
+        "command": "C:\\path\\to\\typora-plugin\\fetch_and_replace.bat",
+        "args": ["${selection}"],
+        "replaceSelection": true,
+        "when": "hasSelection"
+      }
+    }
+  },
+
+  "_comment2": "macOS 用户配置示例:",
+  "_macos_example": {
+    "customCommands": {
+      "fetch-paper-info": {
+        "name": "获取论文信息",
+        "command": "/Users/YourName/read_paper_now/typora-plugin/fetch_and_replace.sh",
+        "args": ["${selection}"],
+        "replaceSelection": true,
+        "when": "hasSelection"
+      }
+    }
+  },
+
+  "_comment3": "配置说明:",
+  "_instructions": {
+    "1": "将上述配置复制到 Typora 的 conf.user.json 文件中",
+    "2": "替换 /path/to/ 为实际的脚本路径",
+    "3": "重启 Typora",
+    "4": "选中论文链接后，右键菜单会出现'获取论文信息'选项",
+    "5": "也可以通过命令面板 (Ctrl/Cmd+Shift+P) 搜索该命令"
+  }
+}

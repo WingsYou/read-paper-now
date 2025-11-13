@@ -1,0 +1,22 @@
+{
+  "id": "arxiv-paper-info",
+  "version": "1.0.0",
+  "name": "arXiv Paper Info Fetcher",
+  "description": "自动获取 arXiv 论文信息并插入到文档中",
+  "author": "Your Name",
+  "commands": [
+    {
+      "id": "fetch-paper-info",
+      "title": "获取论文信息",
+      "description": "从选中的链接获取论文信息",
+      "when": "editorHasSelection"
+    }
+  ],
+  "keybindings": [
+    {
+      "command": "fetch-paper-info",
+      "key": "Ctrl+Shift+P",
+      "mac": "Cmd+Shift+P"
+    }
+  ]
+}
