@@ -72,7 +72,7 @@ touch ~/Library/Application\ Support/abnerworks.Typora/conf/conf.user.json
   "customCommand": {
     "arxiv-paper-info": {
       "name": "Fetch Paper Info",
-      "command": "/path/to/read_paper_now/typora-plugin/fetch_and_replace.sh",
+      "command": "/path/to/read-paper-now/typora-plugin/fetch_and_replace.sh",
       "args": ["${selection}"],
       "replaceSelection": true,
       "when": "hasSelection"
@@ -84,7 +84,7 @@ touch ~/Library/Application\ Support/abnerworks.Typora/conf/conf.user.json
 **Step 3:** Make the script executable
 
 ```bash
-chmod +x /path/to/read_paper_now/typora-plugin/fetch_and_replace.sh
+chmod +x /path/to/read-paper-now/typora-plugin/fetch_and_replace.sh
 ```
 
 **Step 4:** Restart Typora
@@ -104,7 +104,7 @@ Config file location: `%APPDATA%\Typora\conf\conf.user.json`
   "customCommand": {
     "arxiv-paper-info": {
       "name": "Fetch Paper Info",
-      "command": "C:\\path\\to\\read_paper_now\\typora-plugin\\fetch_and_replace.bat",
+      "command": "C:\\path\\to\\read-paper-now\\typora-plugin\\fetch_and_replace.bat",
       "args": ["${selection}"],
       "replaceSelection": true,
       "when": "hasSelection"
@@ -168,7 +168,7 @@ Examples:
 ## Project Structure
 
 ```
-read_paper_now/
+read-paper-now/
 ├── fetch_paper_info.py          # Main script
 ├── requirements.txt             # Python dependencies
 ├── README.md                    # This file
