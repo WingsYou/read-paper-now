@@ -1,20 +1,21 @@
 #!/bin/bash
-# Typora 自定义命令包装脚本
-# 用法: ./fetch_and_replace.sh "<selected_url>"
+# Typora custom command wrapper script
+# Usage: ./fetch_and_replace.sh "<selected_url>"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PYTHON_SCRIPT="$SCRIPT_DIR/../fetch_paper_info.py"
 
-# 从输入中提取 URL（如果是 markdown 链接格式）
+# Extract URL from input (if it's markdown link format)
 URL="$1"
 
-# 检查是否是 markdown 链接格式 [text](url)
+# Check if it's markdown link format [text](url)
 if [[ "$URL" =~ \[.*\]\((.*)\) ]]; then
     URL="${BASH_REMATCH[1]}"
 fi
 
-# 去除前后空格
+# Trim whitespace
 URL=$(echo "$URL" | xargs)
 
-# 调用 Python 脚本获取论文信息
+# Call Python script to fetch paper information
+# Using default mode (Semantic Scholar with automatic fallback to Google Scholar)
 python3 "$PYTHON_SCRIPT" "$URL" 2>/dev/null || python "$PYTHON_SCRIPT" "$URL"

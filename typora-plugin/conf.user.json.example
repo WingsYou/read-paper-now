@@ -1,47 +1,89 @@
 {
-  "customCommands": {
-    "fetch-paper-info": {
-      "name": "获取论文信息",
-      "description": "从 arXiv/Semantic Scholar 等获取论文信息",
-      "command": "/path/to/typora-plugin/fetch_and_replace.sh",
+  "customCommand": {
+    "arxiv-paper-info": {
+      "name": "Fetch Paper Info (Fast)",
+      "command": "/path/to/read_paper_now/typora-plugin/fetch_and_replace.sh",
+      "args": ["${selection}"],
+      "replaceSelection": true,
+      "when": "hasSelection"
+    },
+    "arxiv-paper-info-gs": {
+      "name": "Fetch Paper Info (Google Scholar)",
+      "command": "/path/to/read_paper_now/typora-plugin/fetch_and_replace_gs.sh",
       "args": ["${selection}"],
       "replaceSelection": true,
       "when": "hasSelection"
     }
   },
 
-  "_comment1": "Windows 用户请使用以下配置（取消注释）:",
-  "_windows_example": {
-    "customCommands": {
-      "fetch-paper-info": {
-        "name": "获取论文信息",
-        "command": "C:\\path\\to\\typora-plugin\\fetch_and_replace.bat",
-        "args": ["${selection}"],
-        "replaceSelection": true,
-        "when": "hasSelection"
-      }
-    }
-  },
+  "_comment": "Configuration examples for different platforms",
 
-  "_comment2": "macOS 用户配置示例:",
-  "_macos_example": {
-    "customCommands": {
-      "fetch-paper-info": {
-        "name": "获取论文信息",
+  "_macOS_example": {
+    "customCommand": {
+      "arxiv-paper-info": {
+        "name": "Fetch Paper Info (Fast)",
         "command": "/Users/YourName/read_paper_now/typora-plugin/fetch_and_replace.sh",
         "args": ["${selection}"],
         "replaceSelection": true,
         "when": "hasSelection"
+      },
+      "arxiv-paper-info-gs": {
+        "name": "Fetch Paper Info (Google Scholar)",
+        "command": "/Users/YourName/read_paper_now/typora-plugin/fetch_and_replace_gs.sh",
+        "args": ["${selection}"],
+        "replaceSelection": true,
+        "when": "hasSelection"
       }
     }
   },
 
-  "_comment3": "配置说明:",
+  "_linux_example": {
+    "customCommand": {
+      "arxiv-paper-info": {
+        "name": "Fetch Paper Info (Fast)",
+        "command": "/home/username/read_paper_now/typora-plugin/fetch_and_replace.sh",
+        "args": ["${selection}"],
+        "replaceSelection": true,
+        "when": "hasSelection"
+      },
+      "arxiv-paper-info-gs": {
+        "name": "Fetch Paper Info (Google Scholar)",
+        "command": "/home/username/read_paper_now/typora-plugin/fetch_and_replace_gs.sh",
+        "args": ["${selection}"],
+        "replaceSelection": true,
+        "when": "hasSelection"
+      }
+    }
+  },
+
+  "_windows_example": {
+    "customCommand": {
+      "arxiv-paper-info": {
+        "name": "Fetch Paper Info (Fast)",
+        "command": "C:\\Users\\YourName\\read_paper_now\\typora-plugin\\fetch_and_replace.bat",
+        "args": ["${selection}"],
+        "replaceSelection": true,
+        "when": "hasSelection"
+      },
+      "arxiv-paper-info-gs": {
+        "name": "Fetch Paper Info (Google Scholar)",
+        "command": "C:\\Users\\YourName\\read_paper_now\\typora-plugin\\fetch_and_replace_gs.bat",
+        "args": ["${selection}"],
+        "replaceSelection": true,
+        "when": "hasSelection"
+      }
+    }
+  },
+
   "_instructions": {
-    "1": "将上述配置复制到 Typora 的 conf.user.json 文件中",
-    "2": "替换 /path/to/ 为实际的脚本路径",
-    "3": "重启 Typora",
-    "4": "选中论文链接后，右键菜单会出现'获取论文信息'选项",
-    "5": "也可以通过命令面板 (Ctrl/Cmd+Shift+P) 搜索该命令"
+    "1": "Copy the configuration above to your Typora conf.user.json file",
+    "2": "Replace /path/to/ with the actual script path",
+    "3": "For macOS: ~/Library/Application Support/abnerworks.Typora/conf/conf.user.json",
+    "4": "For Linux: ~/.config/Typora/conf/conf.user.json",
+    "5": "For Windows: %APPDATA%\\Typora\\conf\\conf.user.json",
+    "6": "Restart Typora",
+    "7": "Select a paper URL, right-click to see options",
+    "8": "Fast mode: Uses Semantic Scholar (quick, auto-fallback to Google Scholar)",
+    "9": "Google Scholar mode: Prioritizes Google Scholar (more accurate citations, slightly slower)"
   }
 }

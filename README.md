@@ -17,8 +17,8 @@ A command-line tool and Typora plugin to automatically fetch paper information (
 ### 1. Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/read_paper_now.git
-cd read_paper_now
+git clone https://github.com/WingsYou/read-paper-now.git
+cd read-paper-now
 pip install -r requirements.txt
 ```
 

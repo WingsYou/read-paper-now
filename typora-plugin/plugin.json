@@ -2,13 +2,19 @@
   "id": "arxiv-paper-info",
   "version": "1.0.0",
   "name": "arXiv Paper Info Fetcher",
-  "description": "自动获取 arXiv 论文信息并插入到文档中",
+  "description": "Automatically fetch paper information from arXiv, Google Scholar, and other sources",
   "author": "Your Name",
   "commands": [
     {
       "id": "fetch-paper-info",
-      "title": "获取论文信息",
-      "description": "从选中的链接获取论文信息",
+      "title": "Fetch Paper Info (Fast)",
+      "description": "Fetch paper information from selected link",
+      "when": "editorHasSelection"
+    },
+    {
+      "id": "fetch-paper-info-gs",
+      "title": "Fetch Paper Info (Google Scholar)",
+      "description": "Fetch paper information with Google Scholar for more accurate citations",
       "when": "editorHasSelection"
     }
   ],
@@ -17,6 +23,11 @@
       "command": "fetch-paper-info",
       "key": "Ctrl+Shift+P",
       "mac": "Cmd+Shift+P"
+    },
+    {
+      "command": "fetch-paper-info-gs",
+      "key": "Ctrl+Shift+G",
+      "mac": "Cmd+Shift+G"
     }
   ]
 }

@@ -1,26 +1,33 @@
 /**
  * Typora Plugin: arXiv Paper Info Fetcher
- * 自动获取论文信息并插入到文档中
+ * Automatically fetch paper information and insert into document
  */
 
 const { exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-// 获取脚本路径
+// Get script path
 const SCRIPT_PATH = path.join(__dirname, '..', 'fetch_paper_info.py');
-const PYTHON_CMD = 'python3'; // 或 'python'，根据系统而定
+const PYTHON_CMD = 'python3'; // or 'python', depending on system
 
 /**
- * 执行 Python 脚本获取论文信息
+ * Execute Python script to fetch paper information
+ * @param {string} url - Paper URL
+ * @param {number} maxAuthors - Maximum number of authors to display
+ * @param {boolean} useGoogleScholar - Whether to prioritize Google Scholar
  */
-function fetchPaperInfo(url, maxAuthors = 3) {
+function fetchPaperInfo(url, maxAuthors = 3, useGoogleScholar = false) {
   return new Promise((resolve, reject) => {
-    const cmd = `${PYTHON_CMD} "${SCRIPT_PATH}" "${url}" --max-authors ${maxAuthors}`;
+    let cmd = `${PYTHON_CMD} "${SCRIPT_PATH}" "${url}" --max-authors ${maxAuthors}`;
+
+    if (useGoogleScholar) {
+      cmd += ' --use-google-scholar-citations';
+    }
 
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
-        reject(new Error(`执行失败: ${stderr || error.message}`));
+        reject(new Error(`Execution failed: ${stderr || error.message}`));
         return;
       }
 
@@ -30,7 +37,7 @@ function fetchPaperInfo(url, maxAuthors = 3) {
 }
 
 /**
- * 从文本中提取 URL
+ * Extract URL from text
  */
 function extractUrl(text) {
   const urlPattern = /(https?:\/\/[^\s]+)/;
@@ -39,57 +46,96 @@ function extractUrl(text) {
 }
 
 /**
- * 主命令：获取论文信息
+ * Main command: Fetch paper information (Fast mode)
  */
 async function fetchPaperInfoCommand() {
   try {
-    // 获取选中的文本
+    // Get selected text
     const selection = this.app.workspace.activeEditor.getSelection();
 
     if (!selection) {
-      this.app.vault.adapter.showMessage('请先选中论文链接');
+      this.app.vault.adapter.showMessage('Please select a paper link first');
       return;
     }
 
-    // 提取 URL
+    // Extract URL
     const url = extractUrl(selection);
     if (!url) {
-      this.app.vault.adapter.showMessage('未找到有效的 URL');
+      this.app.vault.adapter.showMessage('No valid URL found');
       return;
     }
 
-    // 显示加载提示
-    this.app.vault.adapter.showMessage('正在获取论文信息...');
+    // Show loading message
+    this.app.vault.adapter.showMessage('Fetching paper information...');
 
-    // 调用 Python 脚本
-    const paperInfo = await fetchPaperInfo(url);
+    // Call Python script
+    const paperInfo = await fetchPaperInfo(url, 3, false);
 
-    // 插入到文档中
+    // Insert into document
     const editor = this.app.workspace.activeEditor;
     editor.replaceSelection(paperInfo);
 
-    this.app.vault.adapter.showMessage('论文信息已插入');
+    this.app.vault.adapter.showMessage('Paper information inserted');
 
   } catch (error) {
     console.error('Error:', error);
-    this.app.vault.adapter.showMessage(`错误: ${error.message}`);
+    this.app.vault.adapter.showMessage(`Error: ${error.message}`);
   }
 }
 
 /**
- * 插件激活
+ * Main command: Fetch paper information (Google Scholar mode)
+ */
+async function fetchPaperInfoGSCommand() {
+  try {
+    // Get selected text
+    const selection = this.app.workspace.activeEditor.getSelection();
+
+    if (!selection) {
+      this.app.vault.adapter.showMessage('Please select a paper link first');
+      return;
+    }
+
+    // Extract URL
+    const url = extractUrl(selection);
+    if (!url) {
+      this.app.vault.adapter.showMessage('No valid URL found');
+      return;
+    }
+
+    // Show loading message
+    this.app.vault.adapter.showMessage('Fetching paper information (Google Scholar)...');
+
+    // Call Python script with Google Scholar priority
+    const paperInfo = await fetchPaperInfo(url, 3, true);
+
+    // Insert into document
+    const editor = this.app.workspace.activeEditor;
+    editor.replaceSelection(paperInfo);
+
+    this.app.vault.adapter.showMessage('Paper information inserted (Google Scholar)');
+
+  } catch (error) {
+    console.error('Error:', error);
+    this.app.vault.adapter.showMessage(`Error: ${error.message}`);
+  }
+}
+
+/**
+ * Plugin activation
  */
 function activate(context) {
   console.log('arXiv Paper Info Plugin activated');
 
-  // 注册命令
+  // Register commands
   context.subscriptions.push(
-    context.commands.registerCommand('fetch-paper-info', fetchPaperInfoCommand)
+    context.commands.registerCommand('fetch-paper-info', fetchPaperInfoCommand),
+    context.commands.registerCommand('fetch-paper-info-gs', fetchPaperInfoGSCommand)
   );
 }
 
 /**
- * 插件停用
+ * Plugin deactivation
  */
 function deactivate() {
   console.log('arXiv Paper Info Plugin deactivated');
